@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import emailExist from '../libraries/emailExist.js';
+import bcrypt from 'bcrypt';
 
 class AuthController {
   async register(req, res) {
@@ -18,8 +19,10 @@ class AuthController {
         };
       if (!req.body.password)
         throw { code: 409, message: 'PASSWORD IS REQUIRED!' };
-        
-      const user = await User.create(req.body);
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(req.body.password, salt);
+
+      const user = await User.create({ fullname: req.body.fullname, email: req.body.email, password: hash });
       if (!user) throw { code: 500, message: 'USER_REGISTER_FAILED' };
       return res
         .status(200)
