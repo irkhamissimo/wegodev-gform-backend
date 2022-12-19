@@ -1,6 +1,10 @@
 import User from '../models/User.js';
 import emailExist from '../libraries/emailExist.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+const env = dotenv.config().parsed;
 
 class AuthController {
   async register(req, res) {
@@ -40,22 +44,39 @@ class AuthController {
 
   async login(req, res) {
     try {
-    if (!req.body.email) throw { code: 400, message: 'Email is required'}
-    if (!req.body.password) throw { code: 400, message: 'Email is required'}
-    
-    let user = await User.findOne({email: req.body.email});
-    if (!user) throw { code: 500, message: 'email not found'}
+      if (!req.body.email) throw { code: 400, message: 'Email is required' };
+      if (!req.body.password) throw { code: 400, message: 'Email is required' };
 
-    const isValidPassword = await bcrypt.compareSync(req.body.password, user.password);
-    if (!isValidPassword) throw { code: 403, message: 'invalid password'}
-    
-    return res.status(200).json({ status: true, message: 'success', user: user.fullname });
+      let user = await User.findOne({ email: req.body.email });
+      if (!user) throw { code: 500, message: 'email not found' };
+
+      const isValidPassword = await bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (!isValidPassword) throw { code: 403, message: 'invalid password' };
+      const accessToken = await jwt.sign(
+        { id: user._id },
+        env.ACCESS_SECRET_KEY,
+        { expiresIn: '15m' }
+      );
+      const refreshToken = await jwt.sign(
+        { id: user._id },
+        env.REFRESH_TOKEN_KEY,
+        { expiresIn: '1h' }
+      );
+      return res.status(200).json({
+        status: true,
+        message: 'success',
+        user: user.fullname,
+        accessToken,
+        refreshToken,
+      });
     } catch (error) {
       return res
         .status(error.code || 500)
         .json({ status: false, message: error.message });
     }
-
   }
 }
 
