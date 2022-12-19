@@ -1,4 +1,5 @@
 import express from 'express';
+import AuthController from '../controllers/AuthController.js'
 
 const router = express.Router();
 
@@ -11,5 +12,7 @@ router.post('/', (req, res) => {
     title: `Hello ${req.body.orang.nama}!, umur: ${req.body.orang.umur}`,
   });
 });
+
+router.post('/register', AuthController.register)
 
 export default router;
