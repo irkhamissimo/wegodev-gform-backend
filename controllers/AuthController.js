@@ -22,7 +22,11 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(req.body.password, salt);
 
-      const user = await User.create({ fullname: req.body.fullname, email: req.body.email, password: hash });
+      const user = await User.create({
+        fullname: req.body.fullname,
+        email: req.body.email,
+        password: hash,
+      });
       if (!user) throw { code: 500, message: 'USER_REGISTER_FAILED' };
       return res
         .status(200)
@@ -32,6 +36,26 @@ class AuthController {
         .status(error.code || 500)
         .json({ status: false, message: error.message });
     }
+  }
+
+  async login(req, res) {
+    try {
+    if (!req.body.email) throw { code: 400, message: 'Email is required'}
+    if (!req.body.password) throw { code: 400, message: 'Email is required'}
+    
+    let user = await User.findOne({email: req.body.email});
+    if (!user) throw { code: 500, message: 'email not found'}
+
+    const isValidPassword = await bcrypt.compareSync(req.body.password, user.password);
+    if (!isValidPassword) throw { code: 403, message: 'invalid password'}
+    
+    return res.status(200).json({ status: true, message: 'success', user: user.fullname });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+
   }
 }
 
