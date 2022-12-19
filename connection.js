@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 const env = dotenv.config().parsed;
 
 const connection = () => {
+  mongoose.set('strictQuery', true);
+
   mongoose.connect(env.MONGODB_URI, {
     dbName: env.MONGODB_NAME,
   });
