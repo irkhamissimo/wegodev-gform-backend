@@ -6,6 +6,14 @@ import dotenv from 'dotenv';
 
 const env = dotenv.config().parsed;
 
+const generateAccessToken = async (payload) => {
+  return jwt.sign({ payload }, env.ACCESS_SECRET_KEY, { expiresIn: '15m' });
+};
+
+const generateRefreshToken = async (payload) => {
+  return jwt.sign({ payload }, env.REFRESH_TOKEN_KEY, { expiresIn: '1h' });
+};
+
 class AuthController {
   async register(req, res) {
     try {
@@ -55,16 +63,10 @@ class AuthController {
         user.password
       );
       if (!isValidPassword) throw { code: 403, message: 'invalid password' };
-      const accessToken = await jwt.sign(
-        { id: user._id },
-        env.ACCESS_SECRET_KEY,
-        { expiresIn: '15m' }
-      );
-      const refreshToken = await jwt.sign(
-        { id: user._id },
-        env.REFRESH_TOKEN_KEY,
-        { expiresIn: '1h' }
-      );
+      
+      const accessToken = await generateAccessToken({ id: user._id });
+      const refreshToken = await generateRefreshToken({ id: user._id });
+
       return res.status(200).json({
         status: true,
         message: 'success',
