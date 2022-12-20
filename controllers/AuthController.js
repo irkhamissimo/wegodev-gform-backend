@@ -7,11 +7,15 @@ import dotenv from 'dotenv';
 const env = dotenv.config().parsed;
 
 const generateAccessToken = async (payload) => {
-  return jwt.sign({ payload }, env.ACCESS_SECRET_KEY, { expiresIn: env.EXPIRES_TOKEN });
+  return jwt.sign({ payload }, env.ACCESS_TOKEN_KEY, {
+    expiresIn: env.EXPIRES_TOKEN,
+  });
 };
 
 const generateRefreshToken = async (payload) => {
-  return jwt.sign({ payload }, env.REFRESH_TOKEN_KEY, { expiresIn: env.EXPIRES_REFRESH_TOKEN });
+  return jwt.sign({ payload }, env.REFRESH_TOKEN_KEY, {
+    expiresIn: env.EXPIRES_REFRESH_TOKEN,
+  });
 };
 
 class AuthController {
@@ -63,9 +67,9 @@ class AuthController {
         user.password
       );
       if (!isValidPassword) throw { code: 403, message: 'invalid password' };
-
-      const accessToken = await generateAccessToken({ id: user._id });
-      const refreshToken = await generateRefreshToken({ id: user._id });
+      let payload = {id: user._id}
+      const accessToken = await generateAccessToken(payload);
+      const refreshToken = await generateRefreshToken(payload);
 
       return res.status(200).json({
         status: true,
@@ -75,6 +79,45 @@ class AuthController {
         refreshToken,
       });
     } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
+
+  async refreshToken(req, res) {
+    try {
+      if (!req.body.refreshToken)
+        throw { code: 400, message: 'Refresh token is required' };
+
+      const verify = await jwt.verify(
+        req.body.refreshToken,
+        env.REFRESH_TOKEN_KEY
+      );
+
+      let payload = { id: verify.id };
+      const accessToken = await generateAccessToken({ payload });
+      const refreshToken = await generateRefreshToken({ payload });
+
+      return res.status(200).json({
+        status: true,
+        message: 'success',
+        accessToken,
+        refreshToken,
+      });
+    } catch (error) {
+      const jwtError = [
+        'invalid signature',
+        'jwt malformed',
+        'jwt must be provided',
+        'invalid token',
+      ];
+      if (error.message === 'jwt expired') {
+        error.message = 'refresh token expired';
+      } else if (jwtError.includes(error.message)) {
+        error.message = 'invalid refresh token';
+      }
+
       return res
         .status(error.code || 500)
         .json({ status: false, message: error.message });
