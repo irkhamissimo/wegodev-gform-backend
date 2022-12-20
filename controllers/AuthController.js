@@ -7,11 +7,11 @@ import dotenv from 'dotenv';
 const env = dotenv.config().parsed;
 
 const generateAccessToken = async (payload) => {
-  return jwt.sign({ payload }, env.ACCESS_SECRET_KEY, { expiresIn: '15m' });
+  return jwt.sign({ payload }, env.ACCESS_SECRET_KEY, { expiresIn: env.EXPIRES_TOKEN });
 };
 
 const generateRefreshToken = async (payload) => {
-  return jwt.sign({ payload }, env.REFRESH_TOKEN_KEY, { expiresIn: '1h' });
+  return jwt.sign({ payload }, env.REFRESH_TOKEN_KEY, { expiresIn: env.EXPIRES_REFRESH_TOKEN });
 };
 
 class AuthController {
@@ -63,7 +63,7 @@ class AuthController {
         user.password
       );
       if (!isValidPassword) throw { code: 403, message: 'invalid password' };
-      
+
       const accessToken = await generateAccessToken({ id: user._id });
       const refreshToken = await generateRefreshToken({ id: user._id });
 
