@@ -3,6 +3,7 @@ import emailExist from '../libraries/emailExist.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import jwtAuth from '../middlewares/jwtAuth.js';
 
 const env = dotenv.config().parsed;
 
