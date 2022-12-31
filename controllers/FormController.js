@@ -82,6 +82,37 @@ class FormController {
         .json({ status: false, message: error.message });
     }
   }
+
+  async destroy(req, res) {
+    try {
+      if (!req.params.id) {
+        throw { code: 400, message: 'FORM_ID_REQUIRED' };
+      }
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        throw { code: 400, message: 'Invalid ID' };
+      }
+      const form = await Form.findOneAndDelete(
+        {
+          _id: req.params.id,
+          userId: req.jwt.payload.id,
+        },
+       
+      );
+
+      if (!form) {
+        throw { code: 500, message: 'FAILED_DELETE_FORM' };
+      }
+      return res
+        .status(200)
+        .json({ status: true, message: 'SUCCESS_DELETE_FORM', form });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
 }
+
+
 
 export default new FormController();
