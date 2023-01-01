@@ -91,13 +91,10 @@ class FormController {
       if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         throw { code: 400, message: 'Invalid ID' };
       }
-      const form = await Form.findOneAndDelete(
-        {
-          _id: req.params.id,
-          userId: req.jwt.payload.id,
-        },
-       
-      );
+      const form = await Form.findOneAndDelete({
+        _id: req.params.id,
+        userId: req.jwt.payload.id,
+      });
 
       if (!form) {
         throw { code: 500, message: 'FAILED_DELETE_FORM' };
@@ -111,8 +108,30 @@ class FormController {
         .json({ status: false, message: error.message });
     }
   }
+
+  async index(req, res) {
+    try {
+      const form = await Form.find({
+        userId: req.jwt.payload.id,
+      });
+
+      if (!form) {
+        throw { code: 404, message: 'Form not found' };
+      }
+      return res
+        .status(200)
+        .json({
+          status: true,
+          message: 'SUCCESS_LOAD_FORM',
+          total: form.length,
+          form,
+        });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
 }
-
-
 
 export default new FormController();

@@ -16,6 +16,8 @@ router.post ('/forms', jwtAuth(), FormController.store);
 router.get('/forms/:id', jwtAuth(), FormController.show);
 router.put('/forms/:id', jwtAuth(), FormController.update);
 router.delete('/forms/:id', jwtAuth(), FormController.destroy);
+router.get ('/forms', jwtAuth(), FormController.index);
+
 
 
 
