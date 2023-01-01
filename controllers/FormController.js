@@ -111,21 +111,24 @@ class FormController {
 
   async index(req, res) {
     try {
-      const form = await Form.find({
-        userId: req.jwt.payload.id,
-      });
+      const limit = parseInt(req.query.limit) || 10;
+      const page = parseInt(req.query.page) || 1;
+      const form = await Form.paginate(
+        {
+          userId: req.jwt.payload.id,
+        },
+        { limit, page }
+      );
 
       if (!form) {
         throw { code: 404, message: 'Form not found' };
       }
-      return res
-        .status(200)
-        .json({
-          status: true,
-          message: 'SUCCESS_LOAD_FORM',
-          total: form.length,
-          form,
-        });
+      return res.status(200).json({
+        status: true,
+        message: 'SUCCESS_LOAD_FORM',
+        total: form.length,
+        form,
+      });
     } catch (error) {
       return res
         .status(error.code || 500)
