@@ -23,7 +23,7 @@ router.get ('/forms', jwtAuth(), FormController.index);
 //Questions
 router.post ('/forms/:id/question', jwtAuth(), QuestionController.store);
 // router.get('/forms/:id', jwtAuth(), FormController.show);
-// router.put('/forms/:id', jwtAuth(), FormController.update);
+router.put('/forms/:id/question/:questionId', jwtAuth(), QuestionController.update);
 // router.delete('/forms/:id', jwtAuth(), FormController.destroy);
 // router.get ('/forms', jwtAuth(), FormController.index);
 
