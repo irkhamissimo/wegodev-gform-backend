@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Form from '../models/Form.js';
 
+const allowedType = ['Radio', 'Text', 'Checkbox', 'Dropdown', 'Email'];
 class QuestionController {
   async store(req, res) {
     try {
@@ -63,6 +64,8 @@ class QuestionController {
       } else if (req.body.hasOwnProperty('required')) {
         field['questions.$[indexQuestion].required'] = req.body.required;
       } else if (req.body.hasOwnProperty('type')) {
+        if (!allowedType.includes(req.body.type))
+          throw { code: 400, message: 'INVALID_QUESTION_TYPE' };
         field['questions.$[indexQuestion].type'] = req.body.type;
       }
 
