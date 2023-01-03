@@ -2,6 +2,7 @@ import express from 'express';
 import AuthController from '../controllers/AuthController.js';
 import FormController from '../controllers/FormController.js';
 import QuestionController from '../controllers/QuestionController.js';
+import OptionController from '../controllers/OptionController.js';
 
 import jwtAuth from '../middlewares/jwtAuth.js';
 
@@ -33,4 +34,17 @@ router.delete(
 );
 router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
 
+// options
+router.post('/forms/:id/question/:questionId/options', jwtAuth(), OptionController.store);
+// router.put(
+//   '/forms/:id/question/:questionId',
+//   jwtAuth(),
+//   QuestionController.update
+// );
+// router.delete(
+//   '/forms/:id/question/:questionId',
+//   jwtAuth(),
+//   QuestionController.destroy
+// );
+// router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
 export default router;
