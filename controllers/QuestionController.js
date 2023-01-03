@@ -3,6 +3,31 @@ import Form from '../models/Form.js';
 
 const allowedType = ['Radio', 'Text', 'Checkbox', 'Dropdown', 'Email'];
 class QuestionController {
+  async index(req, res) {
+    try {
+      if (!req.params.id) {
+        throw { code: 400, message: 'FORM_ID_REQUIRED' };
+      }
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        throw { code: 400, message: 'Invalid ID' };
+      }
+      const form = await Form.findOne({
+        _id: req.params.id,
+        userId: req.jwt.payload.id,
+      });
+      if (!form) throw { code: 404, message: 'FORM_NOT_FOUND' };
+
+      return res.status(200).json({
+        status: true,
+        message: 'QUESTIONS_FOUND',
+        questions: form.questions,
+      });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
   async store(req, res) {
     try {
       if (!req.params.id) {
@@ -99,7 +124,7 @@ class QuestionController {
     }
   }
 
-  async delete(req, res) {
+  async destroy(req, res) {
     try {
       if (!req.params.id) {
         throw { code: 400, message: 'FORM_ID_REQUIRED' };
@@ -114,7 +139,7 @@ class QuestionController {
       if (!mongoose.Types.ObjectId.isValid(req.params.questionId)) {
         throw { code: 400, message: 'Invalid ID' };
       }
-     
+
       const form = await Form.findOneAndUpdate(
         { _id: req.params.id, userId: req.jwt.payload.id },
         {
@@ -124,7 +149,6 @@ class QuestionController {
         },
         { new: true }
       );
-      console.log(form);
       if (!form) {
         throw { code: 400, message: 'QUESTION_DELETE_FAILED' };
       }
