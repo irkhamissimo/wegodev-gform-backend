@@ -27,7 +27,7 @@ class QuestionController {
       );
 
       if (!form) {
-        throw { code: 400, message: 'FORM_UPDATE_FAILED' };
+        throw { code: 400, message: 'QUESTION_UPDATE_FAILED' };
       }
 
       return res.status(200).json({
@@ -91,6 +91,48 @@ class QuestionController {
         status: true,
         message: 'SUCCESS_UPDATE_QUESTION',
         questions: question.questions,
+      });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      if (!req.params.id) {
+        throw { code: 400, message: 'FORM_ID_REQUIRED' };
+      }
+      if (!req.params.questionId) {
+        throw { code: 400, message: 'QUESTION_ID_REQUIRED' };
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        throw { code: 400, message: 'Invalid ID' };
+      }
+      if (!mongoose.Types.ObjectId.isValid(req.params.questionId)) {
+        throw { code: 400, message: 'Invalid ID' };
+      }
+     
+      const form = await Form.findOneAndUpdate(
+        { _id: req.params.id, userId: req.jwt.payload.id },
+        {
+          $pull: {
+            questions: { id: mongoose.Types.ObjectId(req.params.questionId) },
+          },
+        },
+        { new: true }
+      );
+      console.log(form);
+      if (!form) {
+        throw { code: 400, message: 'QUESTION_DELETE_FAILED' };
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: 'QUESTION_DELETED_SUCCESFULLY',
+        form,
       });
     } catch (error) {
       return res
