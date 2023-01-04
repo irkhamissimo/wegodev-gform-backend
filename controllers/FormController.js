@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Form from '../models/Form.js';
+import User from '../models/User.js';
 
 class FormController {
   async store(req, res) {
@@ -129,6 +130,40 @@ class FormController {
         total: form.length,
         form,
       });
+    } catch (error) {
+      return res
+        .status(error.code || 500)
+        .json({ status: false, message: error.message });
+    }
+  }
+
+  async showToUser(req, res) {
+    try {
+      if (!req.params.id) {
+        throw { code: 400, message: 'FORM_ID_REQUIRED' };
+      }
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        throw { code: 400, message: 'Invalid ID' };
+      }
+
+      const form = await Form.findOne({
+        _id: req.params.id,
+      });
+
+      if (!form) {
+        throw { code: 404, message: 'Form not found' };
+      }
+
+      if (req.jwt.payload.id != form.userId && form.public === false) {
+        const user = await User.findOne({ _id: req.jwt.payload.id });
+        if (!form.invites.includes(user.email)) {
+          throw { code: 401, message: 'Unauthorized' };
+        }
+      }
+
+      return res
+        .status(200)
+        .json({ status: true, message: 'SUCCESS_LOAD_FORM', form });
     } catch (error) {
       return res
         .status(error.code || 500)
