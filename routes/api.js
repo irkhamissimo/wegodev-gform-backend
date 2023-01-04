@@ -35,12 +35,16 @@ router.delete(
 router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
 
 // options
-router.post('/forms/:id/question/:questionId/options', jwtAuth(), OptionController.store);
-// router.put(
-//   '/forms/:id/question/:questionId',
-//   jwtAuth(),
-//   QuestionController.update
-// );
+router.post(
+  '/forms/:id/question/:questionId/options',
+  jwtAuth(),
+  OptionController.store
+);
+router.put(
+  '/forms/:id/question/:questionId/options/:optionId',
+  jwtAuth(),
+  OptionController.update
+);
 // router.delete(
 //   '/forms/:id/question/:questionId',
 //   jwtAuth(),
