@@ -146,15 +146,18 @@ class FormController {
         throw { code: 400, message: 'Invalid ID' };
       }
 
-      const form = await Form.findOne({
-        _id: req.params.id,
-      });
+      const form = await Form.findOne(
+        {
+          _id: req.params.id,
+        },
+        { invites: 0 }
+      );
 
       if (!form) {
         throw { code: 404, message: 'Form not found' };
       }
 
-      if (req.jwt.payload.id != form.userId && form.public === false) {
+      if (req.jwt.payload.id !== form.userId && form.public === false) {
         const user = await User.findOne({ _id: req.jwt.payload.id });
         if (!form.invites.includes(user.email)) {
           throw { code: 401, message: 'Unauthorized' };
