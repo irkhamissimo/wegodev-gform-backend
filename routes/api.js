@@ -3,6 +3,7 @@ import AuthController from '../controllers/AuthController.js';
 import FormController from '../controllers/FormController.js';
 import QuestionController from '../controllers/QuestionController.js';
 import OptionController from '../controllers/OptionController.js';
+import AnswerController from '../controllers/AnswerController.js'
 
 import jwtAuth from '../middlewares/jwtAuth.js';
 
@@ -52,5 +53,8 @@ router.delete(
   jwtAuth(),
   OptionController.destroy
 );
-// router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
+
+// answers
+router.post('/answers/:formId', jwtAuth(), AnswerController.store);
+
 export default router;
