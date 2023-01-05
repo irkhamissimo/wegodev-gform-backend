@@ -29,6 +29,19 @@ class AnswerController {
         return acc;
       }, {});
 
+      // * check duplicate answer
+      const answeredBefore = await Answer.find({
+        formId: req.params.formId,
+        userId: req.jwt.payload.id
+      });
+      const hasAnsweredBefore = answeredBefore.some((answers) => {
+        return true;
+      });
+
+      if (hasAnsweredBefore) {
+        throw { code: 400, message: 'DUPLICATE_ANSWER' };
+      }
+
       const answer = await Answer.create({
         formId: req.params.formId,
         userId: req.jwt.payload.id,
@@ -39,7 +52,6 @@ class AnswerController {
         .status(200)
         .json({ status: true, message: 'SUCCESS_', answer });
     } catch (error) {
-      console.error(error);
       return res
         .status(error.code || 500)
         .json({ status: false, message: error.message });
