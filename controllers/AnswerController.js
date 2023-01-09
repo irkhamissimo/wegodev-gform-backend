@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Form from '../models/Form.js';
 import Answer from '../models/Answer.js';
+import duplicateAnswer from '../libraries/duplicateAnswer.js';
 import questionRequiredButEmpty from '../libraries/questionRequiredButEmpty.js';
 
 class AnswerController {
@@ -9,6 +10,10 @@ class AnswerController {
       if (!req.params.formId) throw { code: 400, message: 'FORM_ID_REQUIRED' };
       if (!mongoose.Types.ObjectId.isValid(req.params.formId))
         throw { code: 400, message: 'FORM_ID_INVALID' };
+     
+      const isDuplicate = await duplicateAnswer(req.body.answers)
+      if (isDuplicate) throw { code: 400, message: 'DUPLICATE_ANSWER' };
+
 
       let fields = {};
       req.body.answers.forEach((answer) => {
