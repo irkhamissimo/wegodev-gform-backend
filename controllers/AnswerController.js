@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Form from '../models/Form.js';
 import Answer from '../models/Answer.js';
+import questionRequiredButEmpty from '../libraries/questionRequiredButEmpty.js';
 
 class AnswerController {
   async store(req, res) {
@@ -9,48 +10,21 @@ class AnswerController {
       if (!mongoose.Types.ObjectId.isValid(req.params.formId))
         throw { code: 400, message: 'FORM_ID_INVALID' };
 
-      let forms = await Form.findOne({
-        _id: req.params.formId,
-        userId: req.jwt.payload.id,
+      let fields = {};
+      req.body.answers.forEach((answer) => {
+        fields[answer.questionId] = answer.value;
       });
 
-      // ! Berbeda dengan tutorial, saya tidak mau inputannya harus memasukkan questionId ke JSON
-      // ! jadi ketika user memasukkan params formId, questionId langsung diperoleh melalui query di bawah
-      const answers = forms.questions.map((question, index) => {
-        return {
-          id: question.id,
-          answer: req.body.answers[index],
-        };
-      });
-
-      // ! Mengubah array 'answers' di atas menjadi object sesuai dengan output yang ada di tutorial
-      const fields = answers.reduce((acc, item) => {
-        acc[item.id] = item.answer;
-        return acc;
-      }, {});
-
-      // * check duplicate answer
-      const answeredBefore = await Answer.find({
-        formId: req.params.formId,
-        userId: req.jwt.payload.id
-      });
-      const hasAnsweredBefore = answeredBefore.some((answers) => {
-        return true;
-      });
-
-      if (hasAnsweredBefore) {
-        throw { code: 400, message: 'DUPLICATE_ANSWER' };
-      }
-
-      const answer = await Answer.create({
+      const answers = await Answer.create({
         formId: req.params.formId,
         userId: req.jwt.payload.id,
         ...fields,
       });
+      if (!answers) throw { code: 400, message: 'ANSWER_FAILED' };
 
       return res
         .status(200)
-        .json({ status: true, message: 'SUCCESS_', answer });
+        .json({ status: true, message: 'SUCCESS_SUCCESS', answers });
     } catch (error) {
       return res
         .status(error.code || 500)
