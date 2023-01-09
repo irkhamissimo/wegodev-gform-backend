@@ -14,14 +14,14 @@ class AnswerController {
      
       const form = await Form.findById(req.params.formId);
 
-      const isDuplicate = await duplicateAnswer(req.body.answers)
+      const isDuplicate = await duplicateAnswer(req.body.answers);
       if (isDuplicate) throw { code: 400, message: 'DUPLICATE_ANSWER' };
 
-      const isEmpty = await questionRequiredButEmpty(form, req.body.answers)
+      const isEmpty = await questionRequiredButEmpty(form, req.body.answers);
       if (isEmpty) throw { code: 400, message: 'ANSWER_REQUIRED' };
 
-      const NotExist = await optionValueNotExist(form, req.body.answers)
-      if (NotExist) throw { code: 400, message: 'OPTION_VALUE_NOT_EXIST' };
+      const notExist = await optionValueNotExist(form, req.body.answers);
+      if (notExist) throw { code: 400, message: 'OPTION_VALUE_NOT_EXIST', question: notExist};
 
       let fields = {};
       req.body.answers.forEach((answer) => {
@@ -39,10 +39,14 @@ class AnswerController {
         .status(200)
         .json({ status: true, message: 'SUCCESS_SUCCESS', answers });
     } catch (error) {
-      console.error(error)
+      console.log(error);
       return res
         .status(error.code || 500)
-        .json({ status: false, message: error.message });
+        .json({
+          status: false,
+          message: error.message,
+          question: error.question || null,
+        });
     }
   }
 }
