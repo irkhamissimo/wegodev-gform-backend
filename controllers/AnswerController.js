@@ -3,6 +3,7 @@ import Form from '../models/Form.js';
 import Answer from '../models/Answer.js';
 import duplicateAnswer from '../libraries/duplicateAnswer.js';
 import questionRequiredButEmpty from '../libraries/questionRequiredButEmpty.js';
+import optionValueNotExist from '../libraries/optionValueNotExist.js';
 
 class AnswerController {
   async store(req, res) {
@@ -18,6 +19,9 @@ class AnswerController {
 
       const isEmpty = await questionRequiredButEmpty(form, req.body.answers)
       if (isEmpty) throw { code: 400, message: 'ANSWER_REQUIRED' };
+
+      const NotExist = await optionValueNotExist(form, req.body.answers)
+      if (NotExist) throw { code: 400, message: 'OPTION_VALUE_NOT_EXIST' };
 
       let fields = {};
       req.body.answers.forEach((answer) => {
