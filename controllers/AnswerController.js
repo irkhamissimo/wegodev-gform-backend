@@ -5,6 +5,7 @@ import duplicateAnswer from '../libraries/duplicateAnswer.js';
 import questionRequiredButEmpty from '../libraries/questionRequiredButEmpty.js';
 import optionValueNotExist from '../libraries/optionValueNotExist.js';
 import questionIdNotValid from '../libraries/questionIdNotValid.js';
+import emailNotValid from '../libraries/emailNotValid.js';
 
 class AnswerController {
   async store(req, res) {
@@ -26,6 +27,9 @@ class AnswerController {
       
       const idNotValid = await questionIdNotValid(form, req.body.answers);
       if (idNotValid.length > 0) throw { code: 400, message: 'OPTION_VALUE_NOT_EXIST', question: idNotValid[0].questionId};
+
+      const isEmailNotValid = await emailNotValid(form, req.body.answers);
+      if (isEmailNotValid.length > 0) throw { code: 400, message: 'EMAIL_NOT_VALID', question: isEmailNotValid[0].question};
 
       let fields = {};
       req.body.answers.forEach((answer) => {
