@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Form from '../models/Form.js';
+import User from '../models/User.js';
 
 class InviteController {
   async store(req, res) {
@@ -11,6 +12,19 @@ class InviteController {
 
       if (/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(req.body.email) === false)
         throw { code: 400, message: 'INVALID_EMAIL' };
+      
+      let alreadyInvited = await Form.findOne({
+        _id: req.params.id,
+        userId: req.jwt.payload.id,
+        invites: { $in: req.body.email },
+      });
+      if (alreadyInvited) throw { code: 400, message: 'EMAIL_ALREADY_INVITED' };
+
+      const user = await User.findOne({
+        _id: req.jwt.payload.id,
+        email: req.body.email,
+      });
+      if (user) throw { code: 400, message: 'CANNOT_INVITE_SELF' };
 
       let form = await Form.findOneAndUpdate(
         { _id: req.params.id, user: req.jwt.payload.id },
