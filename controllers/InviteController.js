@@ -3,6 +3,30 @@ import Form from '../models/Form.js';
 import User from '../models/User.js';
 
 class InviteController {
+  async index(req, res) {
+    try {
+      if (!req.params.id) throw { code: 400, message: 'FORM_ID_REQUIRED' };
+      if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        throw { code: 400, message: 'FORM_ID_INVALID' };
+
+      let form = await Form.findOne({
+        _id: req.params.id,
+        userId: req.jwt.payload.id,
+      }).select('invites');
+      if (!form) throw { code: 400, message: 'INVITES_NOT_FOUND' };
+
+      return res.status(200).json({
+        status: true,
+        message: 'INVITES_SUCCESS',
+        form,
+      });
+    } catch (error) {
+      return res.status(error.code || 500).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  }
   async store(req, res) {
     try {
       if (!req.params.id) throw { code: 400, message: 'FORM_ID_REQUIRED' };
@@ -12,11 +36,11 @@ class InviteController {
 
       if (/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(req.body.email) === false)
         throw { code: 400, message: 'INVALID_EMAIL' };
-      
+
       let alreadyInvited = await Form.findOne({
         _id: req.params.id,
         userId: req.jwt.payload.id,
-        invites: { '$in': req.body.email },
+        invites: { $in: req.body.email },
       });
       if (alreadyInvited) throw { code: 400, message: 'EMAIL_ALREADY_INVITED' };
 
@@ -56,7 +80,7 @@ class InviteController {
       let isEmailExist = await Form.findOne({
         _id: req.params.id,
         userId: req.jwt.payload.id,
-        invites: { '$in': req.body.email },
+        invites: { $in: req.body.email },
       });
       if (!isEmailExist) throw { code: 400, message: 'EMAIL_NOT_EXIST' };
 

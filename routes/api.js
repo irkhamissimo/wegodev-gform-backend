@@ -59,12 +59,7 @@ router.post('/answers/:formId', jwtAuth(), AnswerController.store);
 
 // Invites
 router.post('/forms/:id/invites', jwtAuth(), InviteController.store);
-// router.put(
-//   '/forms/:id/question/:questionId',
-//   jwtAuth(),
-//   QuestionController.update
-// );
 router.delete('/forms/:id/invites', jwtAuth(), InviteController.destroy);
-// router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
+router.get('/forms/:id/invites', jwtAuth(), InviteController.index);
 
 export default router;
