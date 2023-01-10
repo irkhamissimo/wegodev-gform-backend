@@ -64,11 +64,7 @@ router.post('/forms/:id/invites', jwtAuth(), InviteController.store);
 //   jwtAuth(),
 //   QuestionController.update
 // );
-// router.delete(
-//   '/forms/:id/question/:questionId',
-//   jwtAuth(),
-//   QuestionController.destroy
-// );
+router.delete('/forms/:id/invites', jwtAuth(), InviteController.destroy);
 // router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
 
 export default router;
