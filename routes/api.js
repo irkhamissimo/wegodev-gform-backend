@@ -3,7 +3,8 @@ import AuthController from '../controllers/AuthController.js';
 import FormController from '../controllers/FormController.js';
 import QuestionController from '../controllers/QuestionController.js';
 import OptionController from '../controllers/OptionController.js';
-import AnswerController from '../controllers/AnswerController.js'
+import AnswerController from '../controllers/AnswerController.js';
+import InviteController from '../controllers/InviteController.js';
 
 import jwtAuth from '../middlewares/jwtAuth.js';
 
@@ -21,7 +22,6 @@ router.put('/forms/:id', jwtAuth(), FormController.update);
 router.delete('/forms/:id', jwtAuth(), FormController.destroy);
 router.get('/forms', jwtAuth(), FormController.index);
 router.get('/forms/:id/users', jwtAuth(), FormController.showToUser);
-
 
 //Questions
 router.post('/forms/:id/question', jwtAuth(), QuestionController.store);
@@ -56,5 +56,19 @@ router.delete(
 
 // answers
 router.post('/answers/:formId', jwtAuth(), AnswerController.store);
+
+// Invites
+router.post('/forms/:id/invites', jwtAuth(), InviteController.store);
+// router.put(
+//   '/forms/:id/question/:questionId',
+//   jwtAuth(),
+//   QuestionController.update
+// );
+// router.delete(
+//   '/forms/:id/question/:questionId',
+//   jwtAuth(),
+//   QuestionController.destroy
+// );
+// router.get('/forms/:id/question', jwtAuth(), QuestionController.index);
 
 export default router;
