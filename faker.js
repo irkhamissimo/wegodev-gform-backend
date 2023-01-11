@@ -1,9 +1,15 @@
-import connection from "./connection.js";
+import connection from './connection.js';
 
 connection();
 
 const args = process.argv;
-const fakerFile = args[2]
-const faker = await import(`./faker/${fakerFile}.js`)
+let limit = 10;
 
-faker.run()
+if (args[3]) {
+  limit = parseInt(args[3]);
+}
+
+const fakerFile = args[2];
+const faker = await import(`./faker/${fakerFile}.js`);
+
+faker.run(limit);
