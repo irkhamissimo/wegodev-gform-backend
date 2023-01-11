@@ -1,0 +1,66 @@
+[
+  {
+    "_id": "a4483003-837a-44b6-a9ab-4c26910620fa",
+    "name": "(Global Env)",
+    "default": false,
+    "global": true,
+    "sortNum": -1,
+    "created": "2022-08-29T01:11:01.350Z",
+    "modified": "2022-08-29T05:44:48.680Z",
+    "data": [
+      {
+        "name": "nmurl",
+        "value": "localhost:4000"
+      },
+      {
+        "name": "token",
+        "value": "localhost:3000"
+      },
+      {
+        "name": "url",
+        "value": "localhost:3000"
+      }
+    ]
+  },
+  {
+    "_id": "a2e42e34-7fb5-43b8-87c5-c655b5d6c250",
+    "name": "(Local Env)",
+    "default": false,
+    "global": true,
+    "local": true,
+    "sortNum": -2,
+    "created": "2022-08-29T03:09:42.612Z",
+    "modified": "2022-08-29T03:09:42.612Z",
+    "data": []
+  },
+  {
+    "_id": "17f075cc-34a1-4aec-85c6-1fd03e611959",
+    "name": "New Environment",
+    "default": true,
+    "sortNum": 9999,
+    "created": "2022-08-29T05:50:32.955Z",
+    "modified": "2022-10-26T01:26:44.543Z",
+    "data": [
+      {
+        "name": "url",
+        "value": "http://localhost:3000"
+      },
+      {
+        "name": "accessToken",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNjNhMDZkMjk3ZTIzZjkzZTMxNjY3YjQwIn0sImlhdCI6MTY3MjgyODkyMSwiZXhwIjoxNjcyODI5ODIxfQ.3Wu7NU2C0oEHgqJwd22QRkesTa5VGEL0iyjJYhP5g2g"
+      },
+      {
+        "name": "TOKEN",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaXAiOiIxOTk2MDcxNjIwMTgwMTIwMDEiLCJyb2xlcyI6WzIsNF0sImlhdCI6MTY3MTA4Nzk5NywiZXhwIjoxNjcxMTc0Mzk3fQ.ZebYj2_oGCBKfxVqSWnmPxIF0zyMZ8vxi1ON-S6MNBw"
+      },
+      {
+        "name": "urlwego",
+        "value": "http://localhost:5000"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNjNhMDZkMjk3ZTIzZjkzZTMxNjY3YjQwIn0sImlhdCI6MTY3MjQ3OTA5NiwiZXhwIjoxNjcyNDc5OTk2fQ.eELKwovUk05FxApofmmAyLv8y2XkTnQg3c8sPUYkK3E"
+      }
+    ]
+  }
+]

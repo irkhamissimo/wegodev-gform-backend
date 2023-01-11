@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "a2e42e34-7fb5-43b8-87c5-c655b5d6c250",
+    "name": "(Local Env)",
+    "default": false,
+    "global": true,
+    "local": true,
+    "sortNum": -2,
+    "created": "2022-08-29T03:09:42.619Z",
+    "modified": "2022-08-29T03:10:17.182Z",
+    "data": [
+      {
+        "name": "token",
+        "value": "json.data.token"
+      }
+    ]
+  }
+]

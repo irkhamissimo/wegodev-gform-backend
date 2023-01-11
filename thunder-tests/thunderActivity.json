@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "8dee38f2-1b0b-4fe5-97cc-72066af73a8d",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://www.thunderclient.com/welcome",
+    "url": "https://www.thunderclient.com/welcome",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-29T01:22:51.370Z",
+    "modified": "2022-08-29T04:17:28.096Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "json-query",
+        "custom": "json.message",
+        "action": "equal",
+        "value": "Welcome to Thunder Client"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.createdBy",
+        "action": "equal",
+        "value": "Ranga Vadhineni"
+      }
+    ]
+  }
+]
