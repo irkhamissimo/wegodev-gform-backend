@@ -24,6 +24,7 @@
     "url": "https://github.com/irkhamissimo/-wegodev-gform-backend.git"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "nodemon": "^2.0.20"
   }
 }
