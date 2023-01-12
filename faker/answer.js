@@ -7,32 +7,30 @@ const run = async (limit) => {
 
     for (let i = 0; i < limit; i++) {
       data.push({
-        '63b13ff36068c2e4aa8cce63': faker.name.fullName(),
-        '63b5590974de1df130820748': faker.helpers.arrayElement([
-          '40',
-          '41',
-          '42',
+        '63bf8abc56d85c66111e5a02': faker.name.fullName(),
+        '63bf8abfae546b30fd4d1a89': faker.helpers.arrayElement([
+          'Pria',
+          'Wanita',
         ]),
-        '63b5597574de1df13082074d': faker.helpers.arrayElements([
-          'nasi goreng',
-          'masakan padang',
-          'mie goreng',
+        '63bf8ac2ae546b30fd4d1a8b': faker.helpers.arrayElements([
+          'Ayam goreng',
+          'Mie',
+          'Nasi goreng',
         ]),
-        formId: '63b00059c00149903bcf0663',
-        userId: '63a06d297e23f93e31667b40',
+        formId: '63bf860026c641c309f390a9',
+        userId: '63bf84e6c350b5fc40d4fd66',
       });
     }
 
     const fakeData = await Answer.insertMany(data);
-    if(fakeData) {
-      console.log('Data berhasil diinsert')
+    if (fakeData) {
+      console.log('Data berhasil diinsert');
       process.exit()
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     process.exit()
-
   }
 };
 
-export {run}
+export { run };

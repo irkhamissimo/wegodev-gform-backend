@@ -4218,13 +4218,26 @@
     "method": "POST",
     "sortNum": 2500,
     "created": "2022-12-19T09:27:08.322Z",
-    "modified": "2023-01-04T07:23:54.740Z",
+    "modified": "2023-01-12T03:58:20.287Z",
     "headers": [],
     "params": [],
     "body": {
-      "type": "json",
-      "raw": "{\n  \"fullname\": \"Paul Gilbert\",\n  \"email\":\"paul@gilbert.com\",\n  \"password\": \"123456\"\n}",
-      "form": []
+      "type": "formencoded",
+      "raw": "",
+      "form": [
+        {
+          "name": "fullname",
+          "value": "john petrucci"
+        },
+        {
+          "name": "email",
+          "value": "j.petrucci@gmail.com"
+        },
+        {
+          "name": "password",
+          "value": "123456"
+        }
+      ]
     },
     "tests": []
   },
@@ -4237,7 +4250,7 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-12-19T14:20:50.129Z",
-    "modified": "2023-01-04T10:42:01.256Z",
+    "modified": "2023-01-12T04:00:21.723Z",
     "headers": [],
     "params": [],
     "body": {
@@ -4255,7 +4268,7 @@
         },
         {
           "name": "email",
-          "value": "irkham.nurhadi.13@ykan.com"
+          "value": "irkham.nurhadi.13@gmail.com"
         },
         {
           "name": "email",
@@ -4332,12 +4345,12 @@
     "method": "GET",
     "sortNum": 70000,
     "created": "2022-12-31T10:50:54.930Z",
-    "modified": "2023-01-05T10:02:31.469Z",
+    "modified": "2023-01-12T04:02:03.853Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b001caee789c9dfd19ee17",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       }
     ],
@@ -4356,12 +4369,12 @@
     "method": "PUT",
     "sortNum": 80000,
     "created": "2022-12-31T14:38:02.089Z",
-    "modified": "2023-01-09T02:14:38.671Z",
+    "modified": "2023-01-12T04:08:59.078Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b00059c00149903bcf0663",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       }
     ],
@@ -4371,12 +4384,12 @@
       "form": [
         {
           "name": "title",
-          "value": "Data Diri",
-          "isDisabled": true
+          "value": "Kuesioner Data Diri"
         },
         {
           "name": "description",
-          "value": "questionnaire data diri"
+          "value": "questionnaire data diri",
+          "isDisabled": true
         }
       ]
     },
@@ -4444,15 +4457,26 @@
     "method": "POST",
     "sortNum": 110000,
     "created": "2023-01-01T08:04:53.658Z",
-    "modified": "2023-01-09T11:12:16.482Z",
+    "modified": "2023-01-12T04:21:16.734Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b00059c00149903bcf0663",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       }
     ],
+    "body": {
+      "type": "formencoded",
+      "raw": "",
+      "form": [
+        {
+          "name": "question",
+          "value": "",
+          "isDisabled": true
+        }
+      ]
+    },
     "auth": {
       "type": "bearer",
       "bearer": "{{accessToken}}"
@@ -4468,17 +4492,17 @@
     "method": "PUT",
     "sortNum": 120000,
     "created": "2023-01-03T02:25:01.854Z",
-    "modified": "2023-01-09T11:16:23.320Z",
+    "modified": "2023-01-12T04:25:15.003Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b00059c00149903bcf0663",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       },
       {
         "name": "questionId",
-        "value": "63bbf6a262c3a0db3e2a68d2",
+        "value": "63bf8ac2ae546b30fd4d1a8b",
         "isPath": true
       }
     ],
@@ -4488,12 +4512,12 @@
       "form": [
         {
           "name": "question",
-          "value": "Alamat email?",
+          "value": "Makanan favorit?",
           "isDisabled": true
         },
         {
           "name": "type",
-          "value": "Email"
+          "value": "Checkbox"
         },
         {
           "name": "required",
@@ -4570,17 +4594,17 @@
     "method": "POST",
     "sortNum": 160000,
     "created": "2023-01-03T09:55:40.204Z",
-    "modified": "2023-01-09T05:55:16.865Z",
+    "modified": "2023-01-12T04:29:48.864Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b00059c00149903bcf0663",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       },
       {
         "name": "questionId",
-        "value": "63b5597574de1df13082074d",
+        "value": "63bf8ac2ae546b30fd4d1a8b",
         "isPath": true
       }
     ],
@@ -4590,7 +4614,7 @@
       "form": [
         {
           "name": "option",
-          "value": "mie goreng"
+          "value": "Nasi goreng"
         }
       ]
     },
@@ -4734,12 +4758,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2023-01-10T02:48:06.990Z",
-    "modified": "2023-01-10T06:47:53.048Z",
+    "modified": "2023-01-12T04:32:16.535Z",
     "headers": [],
     "params": [
       {
         "name": "_id",
-        "value": "63b00059c00149903bcf0663",
+        "value": "63bf860026c641c309f390a9",
         "isPath": true
       }
     ],
@@ -4754,7 +4778,7 @@
         },
         {
           "name": "email",
-          "value": "irkham3@gmail.com"
+          "value": "ulil.albab.13@gmail.com"
         }
       ]
     },
@@ -4820,6 +4844,26 @@
       "type": "bearer",
       "bearer": "{{accessToken}}"
     },
+    "tests": []
+  },
+  {
+    "_id": "62fc5efb-4295-461a-8f14-d107ea744549",
+    "colId": "960b9964-f79f-4028-8b7a-a7cd77c52395",
+    "containerId": "4bccf709-9f9a-42ec-9573-851018f65460",
+    "name": "list responses",
+    "url": "{{urlwego}}/responses/{formId}/list",
+    "method": "GET",
+    "sortNum": 250000,
+    "created": "2023-01-12T03:48:51.557Z",
+    "modified": "2023-01-12T03:51:01.546Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "formId",
+        "value": "63b00059c00149903bcf0663",
+        "isPath": true
+      }
+    ],
     "tests": []
   }
 ]

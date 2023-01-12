@@ -5,6 +5,7 @@ import QuestionController from '../controllers/QuestionController.js';
 import OptionController from '../controllers/OptionController.js';
 import AnswerController from '../controllers/AnswerController.js';
 import InviteController from '../controllers/InviteController.js';
+import ResponseController from '../controllers/ResponseController.js';
 
 import jwtAuth from '../middlewares/jwtAuth.js';
 
@@ -61,5 +62,9 @@ router.post('/answers/:formId', jwtAuth(), AnswerController.store);
 router.post('/forms/:id/invites', jwtAuth(), InviteController.store);
 router.delete('/forms/:id/invites', jwtAuth(), InviteController.destroy);
 router.get('/forms/:id/invites', jwtAuth(), InviteController.index);
+
+// responses
+router.get('/responses/:formId/list', jwtAuth(), ResponseController.list);
+
 
 export default router;
