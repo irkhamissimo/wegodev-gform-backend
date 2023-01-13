@@ -65,6 +65,8 @@ router.get('/forms/:id/invites', jwtAuth(), InviteController.index);
 
 // responses
 router.get('/responses/:formId/list', jwtAuth(), ResponseController.list);
+router.get('/responses/:formId/summary', jwtAuth(), ResponseController.summary);
+
 
 
 export default router;
