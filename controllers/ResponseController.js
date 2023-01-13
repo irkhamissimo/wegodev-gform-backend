@@ -12,17 +12,19 @@ class ResponseControoler {
       let form = await Form.findOne({
         _id: req.params.formId,
         userId: req.jwt.payload.id,
-      }).populate('aswers');
+      }).populate('answers')
 
       if (!form) throw { code: 400, message: 'FORM_NOT_FOUND' };
 
       return res.status(200).json({
         status: true,
-        message: 'FORM_FOUND',
+        message: 'LIST_FOUND',
         form,
         total: form.answers.length,
+        answers: form.answers
       });
     } catch (error) {
+      console.log(error)
       return res
         .status(error.code || 500)
         .json({ status: false, message: error.message });

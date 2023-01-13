@@ -6,6 +6,7 @@ const Schema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'User'
     },
     title: { type: String },
     description: { type: String },
@@ -30,4 +31,11 @@ const Schema = new mongoose.Schema(
 
 Schema.plugin(mongoosePaginate);
 
+Schema.virtual('answers', {
+  ref: 'Answer',
+  localField: '_id',
+  foreignField: 'formId',
+});
+
+Schema.set('toJSON', { virtuals: true });
 export default mongoose.model('Form', Schema);
