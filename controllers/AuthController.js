@@ -75,7 +75,7 @@ class AuthController {
       return res.status(200).json({
         status: true,
         message: 'success',
-        user: user.fullname,
+        fullname: user.fullname,
         accessToken,
         refreshToken,
       });
