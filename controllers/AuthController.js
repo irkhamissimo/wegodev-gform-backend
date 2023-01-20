@@ -45,9 +45,19 @@ class AuthController {
         password: hash,
       });
       if (!user) throw { code: 500, message: 'USER_REGISTER_FAILED' };
+
+      let payload = { id: user._id };
+      const accessToken = await generateAccessToken(payload);
+      const refreshToken = await generateRefreshToken(payload);
+
       return res
         .status(200)
-        .json({ status: true, message: 'user is created succesfully', user });
+        .json({
+          status: true,
+          message: 'USER_REGISTER_SUCCESS',
+          accessToken,
+          refreshToken,
+        });
     } catch (error) {
       return res
         .status(error.code || 500)
@@ -68,7 +78,7 @@ class AuthController {
         user.password
       );
       if (!isValidPassword) throw { code: 403, message: 'invalid password' };
-      let payload = {id: user._id}
+      let payload = { id: user._id };
       const accessToken = await generateAccessToken(payload);
       const refreshToken = await generateRefreshToken(payload);
 
