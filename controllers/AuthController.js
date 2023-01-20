@@ -55,6 +55,7 @@ class AuthController {
         .json({
           status: true,
           message: 'USER_REGISTER_SUCCESS',
+          fullname: user.fullname,
           accessToken,
           refreshToken,
         });
