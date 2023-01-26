@@ -125,7 +125,7 @@ class AuthController {
         'invalid token',
       ];
       if (error.message === 'jwt expired') {
-        error.message = 'refresh token expired';
+        error.message = 'ACCESS_TOKEN_EXPIRED';
       } else if (jwtError.includes(error.message)) {
         error.message = 'invalid refresh token';
       }
