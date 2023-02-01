@@ -22,10 +22,10 @@ const jwtAuth = () => {
         'invalid token',
       ];
       if (error.message === 'jwt expired') {
-        error.code = 401
+        error.code = 401;
         error.message = 'ACCESS_TOKEN_EXPIRED';
       } else if (jwtError.includes(error.message)) {
-        error.message = 'invalid refresh token';
+        error.message = 'INVALID_ACCESS_TOKEN';
       }
 
       return res
