@@ -14,7 +14,7 @@ const router = express.Router();
 //Auth
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
-router.post('/login/refresh-token', jwtAuth(), AuthController.refreshToken);
+router.post('/login/refresh-token', AuthController.refreshToken);
 
 //Form
 router.post('/forms', jwtAuth(), FormController.store);
