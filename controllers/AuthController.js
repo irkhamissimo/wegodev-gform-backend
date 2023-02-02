@@ -50,15 +50,13 @@ class AuthController {
       const accessToken = await generateAccessToken(payload);
       const refreshToken = await generateRefreshToken(payload);
 
-      return res
-        .status(200)
-        .json({
-          status: true,
-          message: 'USER_REGISTER_SUCCESS',
-          fullname: user.fullname,
-          accessToken,
-          refreshToken,
-        });
+      return res.status(200).json({
+        status: true,
+        message: 'USER_REGISTER_SUCCESS',
+        fullname: user.fullname,
+        accessToken,
+        refreshToken,
+      });
     } catch (error) {
       return res
         .status(error.code || 500)
@@ -128,7 +126,6 @@ class AuthController {
         error.message = 'REFRESH_TOKEN_EXPIRED';
       } else if (jwtError.includes(error.message)) {
         error.message = 'INVALID_REFRESH_TOKEN';
-;
       }
 
       return res
